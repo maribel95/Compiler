@@ -1,4 +1,4 @@
-<h1>Compilers 1</h1>
+<h1>Frontend</h1>
 
 <p>Front-end of the compiler, which is composed of lexical, syntactic and semantic analyzers.</p>
 <p>Main features:
@@ -110,7 +110,7 @@ function none main() {
 call_main(main).
 ```
 
-<h1>Compilers 2</h1>
+<h1>Backend</h1>
 
 <p>The backend consisting of
 the intermediate code, code optimization and assembly code.</p>
