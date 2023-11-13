@@ -1,0 +1,7 @@
+func void Principal() {
+	
+	int CONST MAXNUMERO = 10;
+        MAXNUMERO = 5;
+}
+
+

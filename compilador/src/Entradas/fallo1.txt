@@ -1,0 +1,6 @@
+func void Principal() {
+	str cadena = "Hola Pere :)";
+        int num = 18;
+        num = cadena;
+}
+

@@ -1,0 +1,1954 @@
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'bool'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 0
+Tabla de ámbitos
+Ámbito: 0, Puntero: 0
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+Está vacía
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'str'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 0
+Tabla de ámbitos
+Ámbito: 0, Puntero: 0
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+Está vacía
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'int'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 0
+Tabla de ámbitos
+Ámbito: 0, Puntero: 0
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+Está vacía
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'void'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 0
+Tabla de ámbitos
+Ámbito: 0, Puntero: 0
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+Está vacía
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'factorialRecursivo'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 0
+Tabla de ámbitos
+Ámbito: 0, Puntero: 0
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+Está vacía
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner Parámetro <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir un parámetro nuevo 'num' al subprograma  'factorialRecursivo'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 0
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Entrar Bloque <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir un nuevo bloque de ámbitos e incrementar el ámbito del programa.
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 1
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'resultado'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 1
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: resultado
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Entrar Bloque <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir un nuevo bloque de ámbitos e incrementar el ámbito del programa.
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 2
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+Ámbito: 2, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: resultado
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'decremento'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 2
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+Ámbito: 2, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: resultado
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: decremento
+Ámbito: 2
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'resultadoFactorial'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 2
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+Ámbito: 2, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: resultadoFactorial
+Ámbito: 2
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: resultado
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: decremento
+Ámbito: 2
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Salir Bloque <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Eliminar un bloque de ámbitos y decrementar el ámbito del programa.
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 1
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: resultado
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Entrar Bloque <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir un nuevo bloque de ámbitos e incrementar el ámbito del programa.
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 2
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+Ámbito: 2, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: resultado
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Salir Bloque <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Eliminar un bloque de ámbitos y decrementar el ámbito del programa.
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 1
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: resultado
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Salir Bloque <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Eliminar un bloque de ámbitos y decrementar el ámbito del programa.
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 0
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'Principal'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 0
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: Principal
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: void
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Entrar Bloque <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir un nuevo bloque de ámbitos e incrementar el ámbito del programa.
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 1
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: Principal
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: void
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'n'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 1
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: Principal
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: void
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: n
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Poner <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Añadir variable nueva: 'resultado'
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 1
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+Ámbito: 1, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: resultado
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: Principal
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: void
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: n
+Ámbito: 1
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvVariable
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************
+>>>>>>>>>>>>>>>>>>>>>>>> MÉTODO: Salir Bloque <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Eliminar un bloque de ámbitos y decrementar el ámbito del programa.
+*********************  TABLA DE SÍMBOLOS  **************************
+
+----------------------------------------------------------------------
+NIVEL ÁMBITO ACTUAL: 0
+Tabla de ámbitos
+Ámbito: 0, Puntero: 1
+----------------------------------------------------------------------
+TABLA DESCRIPCIÓN:
+
+----------------------------------------------------------------------
+Id: int
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsEntero
+      Ocupacion: 4
+      Límite superior: 2147483647
+      Límite Inferior: -2147483648
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: bool
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsBooleano
+      Ocupacion: 2
+      Límite superior: 1
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: 0
+First: 0
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: void
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsVoid
+      Ocupacion: 0
+      Límite superior: 0
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: Principal
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvSubprograma
+      Nombre del tipo: void
+
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Id: str
+Ámbito: 0
+First: -1
+Follow: -1
+Tipo Descripción: 
+      Tipo valor: dvTipo
+      Tipo subjacente básico: tsString
+      Ocupacion: 0
+      Límite superior: 1024
+      Límite Inferior: 0
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+TABLA EXPANSIÓN:
+
+----------------------------------------------------------------------
+Id: factorialRecursivo
+Ámbito: -1
+First: -1
+Follow: -1
+IdConstante: num
+Tipo Descripción: 
+      Tipo valor: dvArgumento
+      Nombre del tipo: int
+      Valor: null
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+*********************************************************************

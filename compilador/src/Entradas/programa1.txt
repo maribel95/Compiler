@@ -1,0 +1,31 @@
+
+func void Principal() {
+
+       	stdout("Programa que da la opcion de calcular el cuadrado o el cubo de un numero:");
+	int numero = 0;
+	stdin(numero);
+	int opcion = -1;
+
+	*** Mientras no nos introduzcan una opcion valida seguimos preguntando***
+	while (opcion != 1 & opcion != 2){
+		stdout("Elige la opcion: ");
+		stdout("1. Realizar el cuadrado");
+		stdout("2. Realizar el cubo");
+		stdin(opcion);
+	}
+	int resultado = 0;
+
+	*** Segun lo que se haya elegido, se hace una cosa u otra ***
+	if(opcion == 1) {
+		resultado = (numero * numero);
+		stdout("El cuadrado del numero es: ");
+		stdout(resultado);
+	} else if (opcion == 2) {
+		resultado = (numero * numero * numero);
+		stdout("El cubo del numero es: ");
+		stdout(resultado);
+	}
+
+}
+
+

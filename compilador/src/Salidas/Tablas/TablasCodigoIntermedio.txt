@@ -1,0 +1,243 @@
+************************ CÓDIGO INTERMEDIO *************************
+
+Subprogramas:
+ID 0
+
+----------------------------------------------------------------------
+DESCRIPCIÓN SUBPROGRAMA:
+- Nivel de profundidad = 0
+- Etiqueta inicial = FACTORIALRECURSIVO
+- Ocupación de las variables locales = -42
+- Ocupación parámetros = 4
+- Número de parámetros = 1
+- Ocupación = 4
+- Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 1
+
+----------------------------------------------------------------------
+DESCRIPCIÓN SUBPROGRAMA:
+- Nivel de profundidad = 0
+- Etiqueta inicial = PRINCIPAL
+- Ocupación de las variables locales = -200
+- Ocupación parámetros = 0
+- Número de parámetros = 0
+- Ocupación = 0
+- Tipo subjacente básico = tsVoid
+----------------------------------------------------------------------
+Variables:
+ID 0: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = num
+Número variable = 0
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = 4
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 1: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 1
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -4
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 2: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = resultado
+Número variable = 2
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -8
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 3: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 3
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -12
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 4: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 4
+IdSubprograma = 0
+Ocupación = 2
+Desplazamiento = -14
+Tipo subjacente básico = tsBooleano
+----------------------------------------------------------------------
+ID 5: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 5
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -18
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 6: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 6
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -22
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 7: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = decremento
+Número variable = 7
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -26
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 8: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 8
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -30
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 9: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = resultadoFactorial
+Número variable = 9
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -34
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 10: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 10
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -38
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 11: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 11
+IdSubprograma = 0
+Ocupación = 4
+Desplazamiento = -42
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 12: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 12
+IdSubprograma = 1
+Ocupación = 138
+Desplazamiento = -138
+Tipo subjacente básico = tsString
+----------------------------------------------------------------------
+ID 13: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 13
+IdSubprograma = 1
+Ocupación = 4
+Desplazamiento = -142
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 14: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = n
+Número variable = 14
+IdSubprograma = 1
+Ocupación = 4
+Desplazamiento = -146
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 15: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 15
+IdSubprograma = 1
+Ocupación = 4
+Desplazamiento = -150
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 16: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 16
+IdSubprograma = 1
+Ocupación = 4
+Desplazamiento = -154
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 17: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = resultado
+Número variable = 17
+IdSubprograma = 1
+Ocupación = 4
+Desplazamiento = -158
+Tipo subjacente básico = tsEntero
+----------------------------------------------------------------------
+ID 18: 
+
+----------------------------------------------------------------------
+DESCRIPCION VARIABLE:
+Nombre = Variable temporal
+Número variable = 18
+IdSubprograma = 1
+Ocupación = 42
+Desplazamiento = -200
+Tipo subjacente básico = tsString
+----------------------------------------------------------------------
+
+Etiquetas:
+ID 0: ETIQUETA0
+ID 1: ETIQUETA1
+ID 2: ETIQUETA2
+ID 3: ETIQUETA3

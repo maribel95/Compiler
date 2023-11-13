@@ -1,0 +1,1104 @@
+package Sintactico;
+
+import Codigo3Direcciones.GeneradorCodigo3D;
+import Codigo3Direcciones.Operador;
+import Ensamblador.GeneradorCodigoEnsamblador;
+import Enumerados.CategoriaOperador;
+import Enumerados.Operacion3Direcciones;
+import java_cup.runtime.*;
+import Simbolos.*;
+import Lexico.AnalizadorLexico;
+import Enumerados.DescripcionValor;
+import EstructurasDatos.TablaSimbolos;
+import Enumerados.TipoSubjacenteBasico;
+import Ficheros.GestorFicheros;
+import EstructurasDatos.DescripcionTipo;
+import EstructurasDatos.NodoTabla;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java_cup.runtime.XMLElement;
+class Parser;
+
+parser code {:
+    private TablaSimbolos tablaSimbolos;
+    private GeneradorCodigo3D generadorCodigo3D;
+    private AnalizadorLexico escaner;
+    private GestorFicheros gf;
+    private GeneradorCodigoEnsamblador generadorEnsamblador;
+    public Parser(AnalizadorLexico escaner, SymbolFactory sf) {
+        super(escaner);
+        this.gf = new GestorFicheros();
+        this.tablaSimbolos = new TablaSimbolos();
+        generadorCodigo3D = new GeneradorCodigo3D();
+        this.escaner = escaner;
+    }
+
+    // Comprobamos si un valor corresponde a una variable, parámetro de subprograma o a un subprograma como tal
+    private boolean esId(SimboloValores sv) {
+        return sv.getDescripcionValor() == DescripcionValor.dvVariable || sv.getDescripcionValor() == DescripcionValor.dvArgumento || sv.getDescripcionValor() == DescripcionValor.dvSubprograma;
+    }
+    // Comprobamos si no es ni variable, parámetro y constante
+    private boolean esTipoDescripcion(DescripcionTipo td){
+        return DescripcionValor.dvVariable != td.getDescripcionValor() && DescripcionValor.dvArgumento != td.getDescripcionValor() && DescripcionValor.dvConstante != td.getDescripcionValor();
+    }
+    // Comprobamos si es un parámetro, variable, constante, subprograma o si es nulo
+    private boolean esTipoSubjacenteBasico(SimboloValores sv){
+        return (DescripcionValor.dvArgumento == sv.getDescripcionValor()) || (DescripcionValor.dvVariable == sv.getDescripcionValor())|| (DescripcionValor.dvConstante == sv.getDescripcionValor())|| (DescripcionValor.dvNull == sv.getDescripcionValor())|| (DescripcionValor.dvSubprograma == sv.getDescripcionValor());
+    }
+    // Comprobamos si es de algún tipo subjacente básico de los definidos
+    private boolean esTipoCorrecto(DescripcionTipo td) {
+        return (td.getTipoSubjacenteBasico() == TipoSubjacenteBasico.tsVoid || td.getTipoSubjacenteBasico() == TipoSubjacenteBasico.tsBooleano || td.getTipoSubjacenteBasico() == TipoSubjacenteBasico.tsString || td.getTipoSubjacenteBasico() == TipoSubjacenteBasico.tsEntero);
+    }
+    // Comprobamos si es de alguno de los tipos entero, booleano o cadena
+    private boolean esTipoValor(TipoSubjacenteBasico valor){
+        return  valor == TipoSubjacenteBasico.tsBooleano || valor == TipoSubjacenteBasico.tsEntero || valor == TipoSubjacenteBasico.tsString;
+    }
+
+    // Sirve para identificar el código de 3 direcciones que se hará según el operador
+    private Operacion3Direcciones indicarOperador(String operador) {
+        Operacion3Direcciones codigo = null;
+        switch (operador) {
+            case "+":codigo = Operacion3Direcciones.suma;break;
+            case "-":codigo = Operacion3Direcciones.resta; break;
+            case "/":codigo = Operacion3Direcciones.division;break;
+            case "*": codigo = Operacion3Direcciones.producto;
+        }
+        return codigo;
+    }
+ 
+    // Realizamos la operación aritmética entre dos valores según el valor
+    private int realizarOperacion(String operador, int v1, int v2) throws Exception{
+        int nuevo = 0;
+        switch (operador) {
+            case "+":nuevo = v1 + v2;break;
+            case "-":nuevo = v1 - v2;break;
+            case "*":nuevo = v1 * v2;break;
+            case "/":
+                if (v2 == 0){
+                   String mensajeError = "Excepción en la sintaxis del programa, error al realizar una división: no se puede dividir entre 0. ";
+                    gf.escribirError("src/Salidas/Errores/ErroresSintacticos.txt", mensajeError);
+                    throw new Exception(mensajeError);
+                }
+                nuevo = v1 / v2;
+        }
+        return nuevo;
+    }
+    // Comprobamos error relacionado con el tipo subyacente básico
+    private void comprobarErrorTipoSubjacenteBasico(String simbolo) throws Exception{
+        
+        if (!esTipoCorrecto(tablaSimbolos.consultar(simbolo))) {
+            String mensajeError = "Excepción en la semántica del lenguaje. No es del tipo subjacente básico correcto.";
+            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+            throw new Exception(mensajeError);             
+        }   
+    }
+
+    // Comprobamos los diferentes errores relacionados con el tipo subyacente básico del valor, el tipo del valor
+    // o la descripción del valor
+    private TipoSubjacenteBasico comprobarValores (SimboloValores valor) throws Exception{
+        TipoSubjacenteBasico valor1 = TipoSubjacenteBasico.tsVoid;
+        if (DescripcionValor.dvNull == valor.getDescripcionValor()) {
+            valor1 = valor.getTipoSubjacenteBasico();
+
+        } else if (esTipoSubjacenteBasico(valor)) {                                                
+            if (TipoSubjacenteBasico.tsVoid == tablaSimbolos.consultar(valor.getNombreTipo()).getTipoSubjacenteBasico()) {
+                String mensajeError = "Excepción en la semántica del lenguaje. El tipo subjacente básico no puede ser void.";
+                gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                throw new Exception(mensajeError);
+            }else{
+                valor1 = tablaSimbolos.consultar(valor.getNombreTipo()).getTipoSubjacenteBasico();
+            }
+        } else {
+            String mensajeError = "Excepción en la semántica del lenguaje. El valor tiene una descripción valor erronea: " + valor.getDescripcionValor() + ".";
+            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+            throw new Exception(mensajeError);
+        }
+        // COMPROBAMOS EL TIPO SUBJACENTE BÁSICO DE LOS VALORES
+        if (!esTipoValor(valor1)) {
+            String mensajeError = "Excepción en la semántica del lenguaje. Tipo subjacente básico incorrecto: " + valor1 + ".";
+            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+            throw new Exception(mensajeError);
+        }
+        return valor1;
+    }
+
+    // Generamos la categoria de la operacion de 3 direcciones según el operador lógico
+    private Operacion3Direcciones comprobarOperadorRelacional(String operador){
+        Operacion3Direcciones codigo = null;
+        switch (operador) {
+            case ">":
+                codigo = Operacion3Direcciones.mayor;
+                break;
+            case ">=":
+                codigo = Operacion3Direcciones.mayorIgual;
+                break;
+            case "<":
+                codigo = Operacion3Direcciones.menor;
+                break;
+            case "<=":
+                codigo = Operacion3Direcciones.menorIgual;
+                break;
+            case "==":
+                codigo = Operacion3Direcciones.igual;
+                break;
+            case "!=":
+                codigo = Operacion3Direcciones.diferente;
+        }
+        return codigo;
+    }
+
+    // Para obtener el parámetro del subprograma
+    public DescripcionTipo tipoParametro(String idVariable, int indice, Hashtable<String, NodoTabla> tablaDescripcion, LinkedList<NodoTabla> tablaExpansion) {
+        try {
+            if (tablaDescripcion.get(idVariable).getTipoDescripcion().getDescripcionValor() != DescripcionValor.dvSubprograma) {
+                String mensajeError = "Excepción tabla símbolos: la variable escogida no es un subprograma";
+                gf.escribirError("src/Salidas/Errores/ErroresTablaSimbolos.txt", mensajeError);
+                throw new Exception(mensajeError);
+            }else{
+                int idxe;
+                for(idxe  = tablaDescripcion.get(idVariable).getFirst(); indice > 0 && idxe != -1; indice--){
+                    idxe = tablaExpansion.get(idxe).getFollow();
+                }
+                if (idxe == -1){
+                    String mensajeError = "Excepción tabla símbolos: El siguiente índice no existe::" + indice;
+                    gf.escribirError("src/Salidas/Errores/ErroresTablaSimbolos.txt", mensajeError);
+                    throw new Exception(mensajeError);              
+                }           
+                return tablaExpansion.get(idxe).getTipoDescripcion();
+            }          
+        } catch (Exception ex) {
+            Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    // Para obtener el número de parámetros de un subprograma
+    public int numeroParametrosSubprograma(String idVariable, Hashtable<String, NodoTabla> tablaDescripcion, LinkedList<NodoTabla> tablaExpansion) throws Exception {
+        if (tablaDescripcion.get(idVariable).getTipoDescripcion().getDescripcionValor() != DescripcionValor.dvSubprograma){
+            String mensajeError = "Excepción en la tabla de símbolos de tipo incorrecto en el método \"NUMERO PARAMETROS SUBPROGRAMA\": la variable no es un subprograma.";
+            gf.escribirError("src/Salidas/Errores/ErroresTablaSimbolos.txt", mensajeError);
+            throw new Exception(mensajeError);   
+        }else{
+            int idxe;
+            int i;
+            for(i=0, idxe = tablaDescripcion.get(idVariable).getFirst(); idxe != -1; i++){
+                idxe = tablaExpansion.get(idxe).getFollow();
+            }
+            return i;
+        }
+    }
+
+    // Gestión de los ficheros, para generar las listas del código de 3 dimensiones y los ficheros de ensamblador
+    public void gestionFicherosFinal() throws Exception{
+        tablaSimbolos.cerrarFichero();
+        generadorCodigo3D.actualizarDesplazamientos();
+        gf.archivoRegistroCodigo3D("Codigo3Direcciones/ListaC3DSinOptimizar.txt", generadorCodigo3D.getListaCodigo3D());
+        generadorCodigo3D.archivoRegistroTablas();
+        generadorEnsamblador = new GeneradorCodigoEnsamblador(generadorCodigo3D.getListaCodigo3D(), generadorCodigo3D.getTV(), generadorCodigo3D.getTP(), generadorCodigo3D.getTablaEtiquetas());                
+        generadorEnsamblador.crearCodigoEnsambladorSinOptimizar();
+        generadorEnsamblador.crearCodigoEnsambladorOptimizado();
+        gf.archivoRegistroCodigo3D("Codigo3Direcciones/ListaC3DOptimizada.txt", generadorCodigo3D.getListaCodigo3D());
+    }
+:};
+
+terminal                            constante, asignacion, i_if, i_elseif, i_else, i_while, 
+                                    i_func, i_return, i_stdin, i_stdout, parentesis_izq,
+                                    parentesis_der, llave_izq, llave_der,fin_instruccion, coma;
+
+terminal      String                identificador,booleano, entero, cadena,operador_aritmetico, operador_relacional, operador_logico; 
+
+non terminal                        INSTRUCCIONES, SENTENCIA, CONDICION_BOOLEANA, 
+                                    CONDICIONAL_IF, CONDICIONAL_ELSE_IF, CONDICIONAL_ELSE , DECLARACION, SUMAR_AMBITO, RESTAR_AMBITO, ASIGNACION,
+                                    SALIDA_DATOS, BUCLE_WHILE, LAMBDA, CREAR_FUNCION, ENTRADA_DATOS,
+                                    M0, M1, M2;
+
+non terminal  Boolean               PRINCIPIO, CONSTANTE;
+
+non terminal  SimboloValores        SIGNO, VALORES;
+
+non terminal  SimboloOperadores     OPERACION_ARITMETICA, INICIALIZAR_OPERADOR_ARITMETICO,
+                                    VALOR_OPERACION_ARITMETICA, INICIALIZAR_OPERADOR_BOOLEANO,
+                                    VALOR_OPERACION_BOOLEANA, OPERACION_RELACIONAL, OPERACION_BOOLEANA;
+
+non terminal  String                ETIQUETA_SALTO, ETIQUETA_PASAR;
+
+non terminal  SimboloParametros     PARAMETROS_FUNCION,MAS_PARAMETROS,PARAMETROS_LLAMADA;
+
+non terminal  SimboloFuncion        RETURN, INICIO_FUNCION, LLAMAR_FUNCION;
+
+
+start with PRINCIPIO;
+
+PRINCIPIO    ::= M0 CREAR_FUNCION 
+             {: 
+                    gestionFicherosFinal();
+                    RESULT = true;
+             :}
+        ;
+
+INSTRUCCIONES  ::= INSTRUCCIONES SENTENCIA
+        | SENTENCIA
+        ;
+
+SENTENCIA   ::= ASIGNACION
+        | DECLARACION
+        | CONDICIONAL_IF
+        | BUCLE_WHILE      
+        | LLAMAR_FUNCION
+        | SALIDA_DATOS    
+        | ENTRADA_DATOS
+        ;
+
+ENTRADA_DATOS ::= i_stdin parentesis_izq identificador:simboloIdVariable parentesis_der fin_instruccion    
+            {:
+                // CÓDIGO INTERMEDIO INSTRUCCION ENTRADA DATOS Y VARIABLE TEMPORAL
+                generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar("int").getOcupacion(), 0, tablaSimbolos.consultar("int").getTipoSubjacenteBasico());
+                SimboloValores valor = new SimboloValores(tablaSimbolos.consultar("int").getTipoSubjacenteBasico());
+                valor.setIdVariable(String.valueOf(generadorCodigo3D.getTV().getNv()));
+                Operacion3Direcciones opEntrada = Operacion3Direcciones.entradaDatos;
+                Operador opVarTemp = new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable);
+                generadorCodigo3D.generarCodigo3Direcciones(opEntrada, null, null, opVarTemp);
+
+                // COMPROBAR ERROR DE ASIGNACIÓN A UNA CONSTANTE
+                if (DescripcionValor.dvConstante == tablaSimbolos.consultar(simboloIdVariable).getDescripcionValor()) {
+                    String mensajeError = "Excepción en la semántica del lenguaje. No se puede cambiar el valor de una constante";
+                    gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                    throw new Exception(mensajeError);                    
+                }
+                // COMPROBAR DESCRIPCIÓN VALOR
+                switch(valor.getDescripcionValor()){
+                    case dvNull:
+                       // MIRAMOS SI COINCIDE EL TIPO SUBJAENTE BÁSICO DE LA VARIABLE Y EL VALOR
+                        if (tablaSimbolos.consultar(tablaSimbolos.consultar(simboloIdVariable).getNombreId()).getTipoSubjacenteBasico() != valor.getTipoSubjacenteBasico()) {
+                            String mensajeError = "Excepción en la semántica del lenguaje. No coincide el tipo subjacente básico de la variable y del valor." + "Tipo subjacente básico variable: "+ tablaSimbolos.consultar(tablaSimbolos.consultar(simboloIdVariable).getNombreId()).getTipoSubjacenteBasico() + ". " + "Tipo subjacente básico valor: " +valor.getTipoSubjacenteBasico() + ".";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);                
+                        }
+                        break;
+                    case dvVariable: case dvSubprograma: case dvArgumento:
+                        // COMPROBAMOS SI COINCIDE EL TIPO DE LA VARIBALE CON EL DEL VALOR
+                        if(!tablaSimbolos.consultar(simboloIdVariable).getNombreId().equals(valor.getNombreTipo())){
+                            String mensajeError = "Excepción en la semántica del lenguaje. No coincide el tipo de la variable con el del valor."+ "Tipo variable: " + tablaSimbolos.consultar(simboloIdVariable).getNombreId() + ". " + "Tipo valor: " + valor.getNombreTipo() + ".";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);  
+                        }
+                        break;
+                    // TIPO INCORRECTO, YA QUE NO ENTRA EN LA CATEGORIA DE LOS ANTERIORES
+                    default:
+                        String mensajeError = "Excepción en la semántica del lenguaje. Tipo incorrecto valor: " + valor.getDescripcionValor() + ".";
+                        gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                        throw new Exception(mensajeError);                    
+                        
+                }
+                
+                // CÓDIGO INTERMEDIO--> INSTRUCCION DE COPIA SIN OPERANDO 2
+                Operacion3Direcciones opCopia = Operacion3Direcciones.copia;
+                Operador asignacion = new Operador(valor.getIdVariable(), CategoriaOperador.variable);
+                Operador destino = new Operador(String.valueOf(tablaSimbolos.consultar(simboloIdVariable).getIdCodigoIntermedio()), CategoriaOperador.variable);
+                generadorCodigo3D.generarCodigo3Direcciones(opCopia, asignacion, null, destino);
+            :}
+            ;
+
+ASIGNACION  ::= identificador:simboloIdVariable asignacion VALORES:simbolo_valor fin_instruccion
+            {:
+
+                // COMRPOBAR ERROR DE ASIGNACIÓN A UNA CONSTANTE
+                if (DescripcionValor.dvConstante == tablaSimbolos.consultar(simboloIdVariable).getDescripcionValor()) {
+                    String mensajeError = "Excepción en la semántica del lenguaje. No se puede cambiar el valor de una constante";
+                    gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                    throw new Exception(mensajeError);                    
+                }
+                // COMPROBAR DESCRIPCIÓN VALOR
+                switch(simbolo_valor.getDescripcionValor()){
+                    case dvNull:
+                       // MIRAMOS SI COINCIDE EL TIPO SUBJAENTE BÁSICO DE LA VARIABLE Y EL VALOR
+                        if (tablaSimbolos.consultar(tablaSimbolos.consultar(simboloIdVariable).getNombreId()).getTipoSubjacenteBasico() != simbolo_valor.getTipoSubjacenteBasico()) {
+                            String mensajeError = "Excepción en la semántica del lenguaje. No coincide el tipo subjacente básico de la variable y del valor." + "Tipo subjacente básico variable: "+ tablaSimbolos.consultar(tablaSimbolos.consultar(simboloIdVariable).getNombreId()).getTipoSubjacenteBasico() + ". " + "Tipo subjacente básico valor: " +simbolo_valor.getTipoSubjacenteBasico() + ".";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);                
+                        }
+                        break;
+                    case dvVariable: case dvSubprograma: case dvArgumento:
+                        // COMPROBAMOS SI COINCIDE EL TIPOD E LA VARIBALE CON EL DEL VALOR
+                        if(!tablaSimbolos.consultar(simboloIdVariable).getNombreId().equals(simbolo_valor.getNombreTipo())){
+                            String mensajeError = "Excepción en la semántica del lenguaje. No coincide el tipo de la variable con el del valor."+ "Tipo variable: " + tablaSimbolos.consultar(simboloIdVariable).getNombreId() + ". " + "Tipo valor: " + simbolo_valor.getNombreTipo() + ".";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);  
+                        }
+                        break;
+                    // TIPO INCORRECTO, YA QUE NO ENTRA EN LA CATEGORIA DE LOS ANTERIORES
+                    default:
+                        String mensajeError = "Excepción en la semántica del lenguaje. Tipo incorrecto valor: " + simbolo_valor.getDescripcionValor() + ".";
+                        gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                        throw new Exception(mensajeError);                    
+                        
+                }
+                
+                // CÓDIGO INTERMEDIO--> INSTRUCCION DE COPIA SIN OPERANDO 2
+                Operacion3Direcciones opCopia = Operacion3Direcciones.copia;
+                Operador asignacion = new Operador(simbolo_valor.getIdVariable(), CategoriaOperador.variable);
+                Operador destino = new Operador(String.valueOf(tablaSimbolos.consultar(simboloIdVariable).getIdCodigoIntermedio()), CategoriaOperador.variable);
+                generadorCodigo3D.generarCodigo3Direcciones(opCopia, asignacion, null, destino);
+            :}
+            ;
+DECLARACION   ::= identificador:simboloTipoVariable CONSTANTE:constante identificador:simboloIdVariable asignacion VALORES:simbolo_valor fin_instruccion 
+            {:
+                    // COMPROBACIÓN DE TIPO CORRECTO
+                    if (DescripcionValor.dvTipo != tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getDescripcionValor()) {
+                        String mensajeError = "Excepción en la semántica del lenguaje. Error en la declaración de la variable '" + simboloIdVariable + "'. El tipo debería ser '"+ DescripcionValor.dvTipo + "' pero es '" + tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getTipoSubjacenteBasico() + "'" ;
+                        gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                        throw new Exception(mensajeError); 
+                    }
+                    // COMPROBACIÓN TIPO SUBAJCETNE BÁSICO
+                    switch(tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getTipoSubjacenteBasico()){
+                        case tsEntero:case tsBooleano: case tsString:
+                            // Comparamos tipo y valor para comprobar que es correcto                   
+                            boolean esIdentificador = simbolo_valor.getDescripcionValor() == DescripcionValor.dvVariable || simbolo_valor.getDescripcionValor() == DescripcionValor.dvSubprograma || simbolo_valor.getDescripcionValor() == DescripcionValor.dvArgumento || simbolo_valor.getDescripcionValor() == DescripcionValor.dvConstante;               
+                            // COMPROBAMOS SI ES CONSTANTE
+                            if (!simbolo_valor.esConstante() && constante){
+                                String mensajeError = "Excepción en la semántica del lenguaje. Error al declarar la variable '" + simboloIdVariable + "'. No es constante.";
+                                gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                                throw new Exception(mensajeError);                                          
+                            }
+                            // COMRPOBAMOS QUE EL TIPO DECLARADO SEA CORRECTO
+                            if ((DescripcionValor.dvNull == simbolo_valor.getDescripcionValor()) && simbolo_valor.getTipoSubjacenteBasico() != tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getTipoSubjacenteBasico()){
+                                String mensajeError = "Excepción en la semántica del lenguaje. Error de declaración, '" + simboloIdVariable + "'. No se corresponde al tipod eclarado." + "Tipo de la variable: "+ tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getTipoSubjacenteBasico() + ". " + "Tipo del valor: " + simbolo_valor.getTipoSubjacenteBasico() + ".";
+                                gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                                throw new Exception(mensajeError);               
+                            }
+                            // COMPROBAMOS QUE EL TIPO Y EL VALOR ASIGNADO CORRESPONDAN
+                            if (esIdentificador && !simboloTipoVariable.equals(simbolo_valor.getNombreTipo())){
+                                    String mensajeError = "Excepción en la semántica del lenguaje. Error de declaración, '" + simboloIdVariable + "'. El tipo y el valor asignado no coinciden." + "Tipo de la variable: "+ simboloTipoVariable + ". " + "Tipo del valor: " + simbolo_valor.getNombreTipo() + ".";
+                                    gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                                    throw new Exception(mensajeError);                                
+                            }                                      
+                            
+                            int ocupacionVariable = 0;
+                            if (simbolo_valor.esString()) {
+                                ocupacionVariable = simbolo_valor.getOcupacionString();
+                            } else {
+                                ocupacionVariable = tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getOcupacion();
+                            }
+                            generadorCodigo3D.getTV().nuevaVariable(simboloIdVariable, generadorCodigo3D.getTP().subprogramaActual(), ocupacionVariable, 0, tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getTipoSubjacenteBasico());                           
+                            if (!simbolo_valor.esConstante() || !constante) {
+                                DescripcionTipo nuevaVariable = new DescripcionTipo(simboloTipoVariable,null, DescripcionValor.dvVariable);
+                                nuevaVariable.setIdCodigoIntermedio(generadorCodigo3D.getTV().getNv());
+                                tablaSimbolos.poner(simboloIdVariable, nuevaVariable);
+
+                            } else {
+                                DescripcionTipo nuevaVariable = new DescripcionTipo(simboloTipoVariable, simbolo_valor.getValorTipo(), DescripcionValor.dvConstante);
+                                nuevaVariable.setIdCodigoIntermedio(generadorCodigo3D.getTV().getNv());
+                                tablaSimbolos.poner(simboloIdVariable, nuevaVariable);
+                            } 
+
+                            // CÓDIGO 3 DIRECCIONES --> INSTRUCCIÓN COPIA SIN OPERANDO 2
+
+                            Operacion3Direcciones copiar =  Operacion3Direcciones.copia;
+                            Operador opValor = new Operador(simbolo_valor.getIdVariable(), CategoriaOperador.variable);
+                            Operador opVariable = new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable);
+
+                            generadorCodigo3D.generarCodigo3Direcciones(copiar, opValor, null, opVariable);
+                            
+                            break;
+                        default: // Si no es ninguno de los tipos de nuestro programa, lanzamos una excepción
+                            String mensajeError = "Excepción en la semántica del lenguaje. Error en la declaración de la siguiente variable: '" + simboloIdVariable + "'. Tipo subjacente básico incorrecto: '" + tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getTipoSubjacenteBasico() + "'";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);  
+                    }
+            :} 
+        ;
+CONDICIONAL_IF ::= i_if CONDICION_BOOLEANA llave_izq SUMAR_AMBITO M1 INSTRUCCIONES RESTAR_AMBITO llave_der  CONDICIONAL_ELSE_IF CONDICIONAL_ELSE
+
+        ;
+
+CONDICIONAL_ELSE_IF   ::= CONDICIONAL_ELSE_IF ETIQUETA_SALTO:simboloEtiquetaSalto i_elseif M2 CONDICION_BOOLEANA llave_izq SUMAR_AMBITO M1 INSTRUCCIONES RESTAR_AMBITO llave_der
+                {:
+                    Operador op = new Operador(simboloEtiquetaSalto, CategoriaOperador.etiqueta);
+                    // CÓDIGO INTERMEDIO -> ETIQUETA PASAR, NO TIENE OPERANDOS
+                    generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.etiquetaPasar, null, null, op);                
+                :}
+            | LAMBDA
+            ;
+
+
+CONDICIONAL_ELSE   ::= ETIQUETA_SALTO:simboloEtiquetaSalto i_else llave_izq SUMAR_AMBITO M2 INSTRUCCIONES RESTAR_AMBITO llave_der
+                {:
+                    Operador op = new Operador(simboloEtiquetaSalto, CategoriaOperador.etiqueta);
+                    Operacion3Direcciones instruccion = Operacion3Direcciones.etiquetaPasar;
+                    // CÓDIGO INTERMEDIO -> ETIQUETA PASAR SIN OPERANDOS
+                    generadorCodigo3D.generarCodigo3Direcciones(instruccion, null, null, op);
+                :}
+
+            | M2
+            ;
+
+
+BUCLE_WHILE   ::= i_while ETIQUETA_PASAR:simboloEtiqueta CONDICION_BOOLEANA llave_izq SUMAR_AMBITO M1 INSTRUCCIONES RESTAR_AMBITO llave_der
+            {:
+                // CÓDIGO INTERMEDIO-> ETIQUETA SALTAR SIN OPERANDOS
+                // Primero generamos el salto
+                Operador opSaltar = new Operador(simboloEtiqueta, CategoriaOperador.etiqueta);
+                Operacion3Direcciones saltar = Operacion3Direcciones.saltoIncondicional;
+                generadorCodigo3D.generarCodigo3Direcciones(saltar, null, null, opSaltar);
+                // Luego la etiqueta
+                // CÓDIGO INTERMEDIO-> ETIQUETA PASAR, SIN OPERANDOS
+                    Operador opPasar = new Operador(generadorCodigo3D.getPilaFalse().pop(), CategoriaOperador.etiqueta);
+                    Operacion3Direcciones pasar = Operacion3Direcciones.etiquetaPasar;
+                    generadorCodigo3D.generarCodigo3Direcciones(pasar, null, null, opPasar);
+            :}
+        ;
+
+LLAMAR_FUNCION ::= i_func PARAMETROS_LLAMADA:simboloLlamar parentesis_der
+        {:		
+            // COMPROBAMOS QUE AL LLAMAR LA FUNCIÓN EL NÚMERO DE PARÁMETROS SEA EL CORRECTO
+            if (simboloLlamar.getContador() != numeroParametrosSubprograma(simboloLlamar.getIdSubprograma(),tablaSimbolos.getTablaDescripcion(), tablaSimbolos.getTablaExpansion())){
+                String mensajeError = "Excepción en la semántica del lenguaje. Error, el número de parámetros de la función '" + simboloLlamar.getIdSubprograma() + "' es incorrecto." ;
+                gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                throw new Exception(mensajeError);
+            }
+            // CÓDIGO INTERMEDIO --> LLAMADA FUNCIÓN, SIN OPERANDOS
+            // ADEMAS ACTUALIZAMOS EL NÚMERO DE PARÁMETROS DE LA TABLA DE PROCEDIMIENTOS/SUBPROGRAMAS
+            Operacion3Direcciones llamada = Operacion3Direcciones.llamada;
+            Operador opSubprograma = new Operador(String.valueOf(simboloLlamar.getIdCodigo3D()), CategoriaOperador.subprograma);
+            generadorCodigo3D.getTP().actualizarNumeroParametros(simboloLlamar.getIdCodigo3D(), simboloLlamar.getContador());                   
+            generadorCodigo3D.generarCodigo3Direcciones(llamada,null,null,opSubprograma);
+
+            RESULT = new SimboloFuncion(simboloLlamar.getIdSubprograma(), simboloLlamar.getIdCodigo3D());
+        :}
+    ;
+
+PARAMETROS_LLAMADA   ::= PARAMETROS_LLAMADA:simboloParametros  VALORES:simboloValores
+                {:                    
+                    // COMRPOBAMOS EL TIPO SUBJACENTE BÁSICO
+                    TipoSubjacenteBasico valor = TipoSubjacenteBasico.tsVoid;
+                    if (simboloValores.getDescripcionValor() == DescripcionValor.dvNull) {
+                        valor = simboloValores.getTipoSubjacenteBasico();
+                        // COMPROBAMOS SI ES ID
+                    } else if (esId(simboloValores)) {
+                        valor = tablaSimbolos.consultar(simboloValores.getNombreTipo()).getTipoSubjacenteBasico();
+                    } else {
+                        String mensajeError = "Excepción en la semántica del lenguaje. Error en la llamada de la siguiente función:'" + simboloParametros.getIdSubprograma() + "'.Descripción valor incorrecto: "+ simboloValores.getDescripcionValor() + ".";
+                        gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                        throw new Exception(mensajeError);
+                    }
+                    // COMPROBAMOS TIPO SUBYACENTE DE LA FUNCIÓN
+                    if (valor != tablaSimbolos.consultar(tipoParametro(simboloParametros.getIdSubprograma(), simboloParametros.getContador(), tablaSimbolos.getTablaDescripcion(), tablaSimbolos.getTablaExpansion()).getNombreId()).getTipoSubjacenteBasico()) {
+                        String mensajeError = "Excepción en la semántica del lenguaje. Tipo subjacente erroneo en la función: '" + simboloParametros.getIdSubprograma();
+                        gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                        throw new Exception(mensajeError);
+                    }
+                    // CÓDIGO INTERMEDIO-> PARAMETRO DE LA FUNCIÓN
+                    Operador variable= new Operador(String.valueOf(simboloValores.getIdVariable()), CategoriaOperador.variable);
+                    Operador parametro = new Operador(String.valueOf(simboloParametros.getContador() + 1), CategoriaOperador.nParametro);
+                    Operador subprograma = new Operador(String.valueOf(simboloParametros.getIdCodigo3D()), CategoriaOperador.subprograma);
+                    generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.parametroSimple,variable,parametro,subprograma);
+
+                    RESULT = new SimboloParametros(simboloParametros.getIdSubprograma(), simboloParametros.getContador() + 1, simboloParametros.getIdCodigo3D());
+                :}
+
+            | identificador:simboloIdFuncion parentesis_izq
+                {:
+                    RESULT = new SimboloParametros(simboloIdFuncion, 0, tablaSimbolos.consultar(simboloIdFuncion).getIdCodigoIntermedio());
+                
+                :}
+            ;
+
+
+
+SALIDA_DATOS  ::= i_stdout parentesis_izq VALORES:simbolo_valor parentesis_der fin_instruccion
+            {:
+                    // COMRPOBAMOS QUE EL TIPO SUBYACENTE BÁSICO DEL VALOR SEA EL ADECUADO
+                    if (!esTipoSubjacenteBasico(simbolo_valor)) {
+                        String mensajeError = "Excepción en la semántica del lenguaje. Error en la operaciónd de salida de datos: " + simbolo_valor.getDescripcionValor() + ".";
+                        gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                        throw new Exception(mensajeError);
+                    }
+                    // CÓDIGO INTERMEDIO-> SALIDA ESTÁNDAR DE DATOS
+                    Operacion3Direcciones opSalida = Operacion3Direcciones.salidaDatos;
+                    Operador op = new Operador(String.valueOf(simbolo_valor.getIdVariable()), CategoriaOperador.variable);
+                    generadorCodigo3D.generarCodigo3Direcciones(opSalida, null, null, op);
+            :}
+        ;
+
+
+INICIALIZAR_OPERADOR_ARITMETICO   ::= parentesis_izq OPERACION_ARITMETICA:simboloOperacionArit parentesis_der
+                    {:
+                        // GUARDAMOS LOS VALORES DE LA OPERACIÓN ARITMÉTICA
+                        if (simboloOperacionArit.esConstante()) {
+                            RESULT =  new SimboloOperadores(simboloOperacionArit.getIdVariable(),simboloOperacionArit.esConstante(), simboloOperacionArit.getValorTipo());
+                        }else{
+                            RESULT =  new SimboloOperadores(simboloOperacionArit.getIdVariable(),simboloOperacionArit.esConstante());
+                        }
+                    :}
+                ; 
+
+OPERACION_ARITMETICA   ::= OPERACION_ARITMETICA:valorOpArit operador_aritmetico:operador_aritmetico VALOR_OPERACION_ARITMETICA:valOperacionArit
+                    {: 
+                        SimboloOperadores operadorAritmetico2 = new SimboloOperadores();
+                        if (operadorAritmetico2.esConstante() && valOperacionArit.esConstante()) {
+                            operadorAritmetico2.setEsConstante(true);
+                            operadorAritmetico2.setValorTipo(realizarOperacion(operador_aritmetico, (int) valorOpArit.getValorTipo(), (int) valOperacionArit.getValorTipo()));
+                        }
+                        // CÓDIGO INTERMEDIO, GENERAMOS VARIABLE TEMPORAL
+                        generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar("int").getOcupacion(), 0, tablaSimbolos.consultar("int").getTipoSubjacenteBasico());
+                        operadorAritmetico2.setIdVariable(String.valueOf(generadorCodigo3D.getTV().getNv()));
+                        // Código 3 direcciones
+                        Operador opVariable = new Operador(valorOpArit.getIdVariable(), CategoriaOperador.variable);
+                        Operador opVariable2 = new Operador(valOperacionArit.getIdVariable(), CategoriaOperador.variable);
+                        Operador variableTemporal = new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable);
+                        // CÓDIGO INTERMEDIO DEL OPERADOS ARITMETICO
+                        generadorCodigo3D.generarCodigo3Direcciones(indicarOperador(operador_aritmetico), opVariable, opVariable2,variableTemporal);
+                        RESULT = operadorAritmetico2;
+                    :}
+
+                | VALOR_OPERACION_ARITMETICA:valOperacionArit1 operador_aritmetico:operador_aritmetico VALOR_OPERACION_ARITMETICA:valOperacionArit2
+                    {: 
+                        SimboloOperadores operadorAritmetico = new SimboloOperadores();
+                        if (valOperacionArit1.esConstante() && valOperacionArit2.esConstante()) {
+                            operadorAritmetico.setEsConstante(true);
+                            operadorAritmetico.setValorTipo(realizarOperacion(operador_aritmetico, (int) valOperacionArit1.getValorTipo(), (int) valOperacionArit2.getValorTipo()));
+                        }
+                        // CÓDIGO INTERMEDIO, GENERAMOS VARIABLE TEMPORAL
+                        generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar("int").getOcupacion(), 0, tablaSimbolos.consultar("int").getTipoSubjacenteBasico());
+                        operadorAritmetico.setIdVariable(String.valueOf(generadorCodigo3D.getTV().getNv()));
+                        // Código 3 direcciones
+                        Operador opVar = new Operador(valOperacionArit1.getIdVariable(), CategoriaOperador.variable);
+                        Operador opVar2 = new Operador(valOperacionArit2.getIdVariable(), CategoriaOperador.variable);
+                        Operador opVarTemporal = new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable);
+                        // CÓDIGO INTERMEDIO DEL OPERADOS ARITMETICO
+                        generadorCodigo3D.generarCodigo3Direcciones(indicarOperador(operador_aritmetico), opVar, opVar2,  opVarTemporal);
+                        RESULT = operadorAritmetico;
+                    :}
+                ;
+
+VALOR_OPERACION_ARITMETICA  ::= parentesis_izq OPERACION_ARITMETICA:simboloOperacion parentesis_der 
+                    {: 
+                        if (simboloOperacion.esConstante()) {
+                            RESULT = new SimboloOperadores(simboloOperacion.getIdVariable(),simboloOperacion.esConstante(), simboloOperacion.getValorTipo());
+                        }else{
+                            RESULT =  new SimboloOperadores(simboloOperacion.getIdVariable(),simboloOperacion.esConstante());
+                        }
+                    :}
+
+                | identificador:id
+                    {:
+                        // CONTENIDO ERRONEO
+                        if (esTipoDescripcion(tablaSimbolos.consultar(id))) {
+                            String mensajeError = "Excepción en la semántica del lenguaje. Operador aritmético: '" + id + "'. El valor tiene un contenido erroneo: " + tablaSimbolos.consultar(id).getDescripcionValor() + ".";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);                         
+                        }
+                        // TIPO SUBYACENTE ERRONEO
+                        if (TipoSubjacenteBasico.tsEntero != tablaSimbolos.consultar(tablaSimbolos.consultar(id).getNombreId()).getTipoSubjacenteBasico()){
+                            String mensajeError = "Excepción en la semántica del lenguaje. Operador aritmético '" + id + "'. Tipo Subjacente erroneo del valor: " + tablaSimbolos.consultar(tablaSimbolos.consultar(id).getNombreId()).getTipoSubjacenteBasico() + ".";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError); 
+                        }
+                        if (DescripcionValor.dvConstante == tablaSimbolos.consultar(id).getDescripcionValor()) {                        
+                            RESULT = new SimboloOperadores(String.valueOf(tablaSimbolos.consultar(id).getIdCodigoIntermedio()), true, (int) tablaSimbolos.consultar(id).getValorConstante());
+                        }else{
+                            RESULT = new SimboloOperadores(String.valueOf(tablaSimbolos.consultar(id).getIdCodigoIntermedio()), false);
+                        }
+                    :}
+
+                | SIGNO:simbolo_signo entero:entero_valor
+                    {: 
+                        // CÓDIGO INTERMEDIO, GENERAMOS VARIABLE TEMPORAL Y INSTRUCCION 3D DE COPIA
+                        generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar("int").getOcupacion(), 0, tablaSimbolos.consultar("int").getTipoSubjacenteBasico());
+                        if(simbolo_signo != null && simbolo_signo.esNegativo()){                        
+                            generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.copia, new Operador(String.valueOf(-Integer.parseInt(entero_valor)), CategoriaOperador.valorAritmetico), null, new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable));
+                            RESULT = new SimboloOperadores(String.valueOf(generadorCodigo3D.getTV().getNv()),-Integer.parseInt(entero_valor));
+                        }else{                       
+                            generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.copia, new Operador(String.valueOf(Integer.parseInt(entero_valor)), CategoriaOperador.valorAritmetico), null, new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable));
+                            RESULT = new SimboloOperadores(String.valueOf(generadorCodigo3D.getTV().getNv()),Integer.parseInt(entero_valor));
+                        }
+                    :}
+                ;
+
+SIGNO    ::= operador_aritmetico:simboloOperacion
+            {: 
+                // COMRPOBACIÓN DE QUE EL SIGNO CORRESPONDA CON EL MENOS O EL MÁS
+                if (!simboloOperacion.equals("+") && !simboloOperacion.equals("-")){
+                    String mensajeError = "Excepción en la semántica del lenguaje de tipo operador incorrecto, el signo debería ser '+' o '-'.";
+                    gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                    throw new Exception(mensajeError);
+                }
+                if (!simboloOperacion.equals("-")) {
+                    RESULT = new SimboloValores(false);
+                }else{
+                    RESULT = new SimboloValores(true);
+                }
+            :}
+        |   
+            {: 
+           
+                RESULT = new SimboloValores();
+            :}
+        ;
+CONSTANTE  ::= constante 
+                {:
+       
+                    RESULT = true;
+
+                :}
+            |   
+                {:
+                    RESULT = false;
+
+                :}
+            ;
+
+
+INICIALIZAR_OPERADOR_BOOLEANO    ::= parentesis_izq OPERACION_BOOLEANA:operacion_booleana parentesis_der
+                    {:
+                        if (!operacion_booleana.esSimple()) generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.etiquetaPasar, null, null, new Operador(operacion_booleana.getIdEtiqueta(), CategoriaOperador.etiqueta));
+                        if (operacion_booleana.esConstante()) {
+                            RESULT = new SimboloOperadores(operacion_booleana.getIdVariable(), true, operacion_booleana.getValorTipo());
+                        }else{
+                            RESULT = new SimboloOperadores(operacion_booleana.getIdVariable());
+                        }
+                    :}
+                ;
+
+OPERACION_BOOLEANA     ::= OPERACION_BOOLEANA:operador_bool1 operador_logico:operador_logico VALOR_OPERACION_BOOLEANA:operador_bool2
+                    {:
+                        // MIRAMOS EL OPERADOR LÓGICO Y SEGÚN SEA GENERAMOS INSTRUCCION CONDICIONAL FALSA Y INSTRUCCION AND
+                        if(operador_logico.equals("&")){
+                            generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.esFalse, new Operador(String.valueOf(operador_bool1.getIdVariable()), CategoriaOperador.variable), null, new Operador(String.valueOf(operador_bool1.getIdEtiqueta()), CategoriaOperador.etiqueta));
+                            generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.and, new Operador(String.valueOf(operador_bool2.getIdVariable()), CategoriaOperador.variable), null, new Operador(String.valueOf(operador_bool1.getIdVariable()), CategoriaOperador.variable));      
+
+                        // MIRAMOS EL OPERADOR LÓGICO Y SEGÚN SEA GENERAMOS INSTRUCCION CONDICIONAL VERDADERA Y INSTRUCCION OR                     
+                        }else if(operador_logico.equals("|")){
+                            generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.esTrue, new Operador(String.valueOf(operador_bool1.getIdVariable()), CategoriaOperador.variable), null, new Operador(String.valueOf(operador_bool1.getIdEtiqueta()), CategoriaOperador.etiqueta));
+                            generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.or, new Operador(String.valueOf(operador_bool2.getIdVariable()), CategoriaOperador.variable), null, new Operador(String.valueOf(operador_bool1.getIdVariable()), CategoriaOperador.variable));               
+                        }
+                        SimboloOperadores simboloOperacionBooleana = new SimboloOperadores(operador_bool1.getIdEtiqueta(), operador_bool1.getIdVariable(), false);
+                        if (operador_bool2.esConstante() && operador_bool1.esConstante()) {
+                            simboloOperacionBooleana.setEsConstante(true); 
+                            if(operador_logico.equals("&")){
+                                simboloOperacionBooleana.setValorTipo((boolean) operador_bool1.getValorTipo() && (boolean) operador_bool2.getValorTipo());
+                            }else if(operador_logico.equals("|")){
+                                simboloOperacionBooleana.setValorTipo((boolean) operador_bool1.getValorTipo() || (boolean) operador_bool2.getValorTipo());
+                            }
+
+                        }
+                        RESULT = simboloOperacionBooleana;
+                    :}
+
+                | VALOR_OPERACION_BOOLEANA:op_bool_value
+                    {:
+                        // GENERAMOS UNA ETIQUETA DE SALTO
+                        generadorCodigo3D.getTablaEtiquetas().add("ETIQUETA" + generadorCodigo3D.getNumeroEtiqueta());
+                        generadorCodigo3D.sumarEtiqueta();
+
+                        if (op_bool_value.esConstante()) {
+                            RESULT = new SimboloOperadores(true, op_bool_value.getValorTipo(), true, String.valueOf(generadorCodigo3D.getNumeroEtiqueta()), op_bool_value.getIdVariable());
+                        }else{
+                            RESULT = new SimboloOperadores(true,String.valueOf(generadorCodigo3D.getNumeroEtiqueta()), op_bool_value.getIdVariable() );
+                        }
+                    :}
+                ;
+
+VALOR_OPERACION_BOOLEANA   ::= 
+
+                parentesis_izq OPERACION_BOOLEANA:op_boolean parentesis_der
+                    {:
+                        generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.etiquetaPasar, null, null, new Operador(String.valueOf(op_boolean.getIdEtiqueta()), CategoriaOperador.variable));                         
+                        if (op_boolean.esConstante()) {
+                            RESULT = new SimboloOperadores(true, op_boolean.getValorTipo(),op_boolean.getIdVariable());
+                        }else{
+                            RESULT = new SimboloOperadores(op_boolean.getIdVariable());
+                        }
+                    :}
+
+                |    booleano:bool_val
+                    {: 
+                        // GENERAMOS UNA VARIABLE TEMPORAL
+                        generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar("bool").getOcupacion(), 0, tablaSimbolos.consultar("bool").getTipoSubjacenteBasico());
+                        // CÓDIGO INTERMEDIO  
+                        Operacion3Direcciones opCopia =  Operacion3Direcciones.copia;
+                        Operador opBool = new Operador(bool_val, CategoriaOperador.valorBooleano);
+                        Operador opVarTemp = new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable);
+                        // CÓDIGO INTERMEDIO  INSTRUCCION COPIA
+                        generadorCodigo3D.generarCodigo3Direcciones(opCopia,opBool,null,opVarTemp);
+                        RESULT = new SimboloOperadores(String.valueOf(generadorCodigo3D.getTV().getNv()),Boolean.parseBoolean(bool_val));                    
+                    :}
+
+                | OPERACION_RELACIONAL:simboloComparador
+                    {:
+                        RESULT =  new SimboloOperadores(simboloComparador.getIdVariable());
+                    :}
+
+                | identificador:id
+                    {:
+                        // CONSULTAMOS LA DESCRIPCION VALOR DEL IDENTIFICADOR, MIRAMOS QUE SE AUNA VARIABLE, CONSTANTE O ARGUMENTO
+                        switch(tablaSimbolos.consultar(id).getDescripcionValor()){
+                            case dvVariable: case dvArgumento: case dvConstante:
+                                // COMRPOBACION TIPO SUBYACENTE
+                                if (TipoSubjacenteBasico.tsBooleano != tablaSimbolos.consultar(tablaSimbolos.consultar(id).getNombreId()).getTipoSubjacenteBasico()){
+                                    String mensajeError = "Excepción en la semántica del lenguaje. No es del tipo subjacente adecuado. Debería ser un booleano " + tablaSimbolos.consultar(tablaSimbolos.consultar(id).getNombreId()).getTipoSubjacenteBasico() + ".";
+                                    gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                                    throw new Exception(mensajeError);
+                                }
+                                if (DescripcionValor.dvConstante == tablaSimbolos.consultar(id).getDescripcionValor()) {
+                                    RESULT = new SimboloOperadores( true, tablaSimbolos.consultar(id).getValorConstante(), String.valueOf(tablaSimbolos.consultar(id).getIdCodigoIntermedio()));
+                                }else{
+                                    RESULT = new SimboloOperadores(String.valueOf(tablaSimbolos.consultar(id).getIdCodigoIntermedio()));
+                                }                                
+                                break;
+                            default:
+                            String mensajeError = "Excepción en la semántica del lenguaje. El valor booleano no tiene la descripción de valor adecuada: " + tablaSimbolos.consultar(id).getDescripcionValor() + ".";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError); 
+                        }
+                    :}
+                ;
+
+OPERACION_RELACIONAL ::= VALORES:value_1 operador_relacional:op_relational VALORES:value_2
+                    {:
+                        // COMRPOBAMOS LOS POSIBLES ERRORES DEL VALOR 1
+                        TipoSubjacenteBasico valor1 = comprobarValores (value_1);
+                        // HACEMOS LO MISMO PERO AHORA CON EL VALOR 2
+                        TipoSubjacenteBasico valor2 = comprobarValores (value_2);
+                        // Comprobamos que el tipo subjacente básico de ámbos coincida
+                        if (valor1 != valor2) {
+                            String mensajeError = "Excepción en la semántica del lenguaje. Ambos valores tienen tipos subjacente básicos distintos. Tipo subjacente básico valor 1: " + valor1 +"Tipo subjacente básico valor 2: " + valor2;
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);
+                        }
+                        boolean esOperadorRelacional= op_relational.equals(">")|| op_relational.equals(">=")|| op_relational.equals("<")|| op_relational.equals("<=");
+                        if (esOperadorRelacional && (TipoSubjacenteBasico.tsEntero != valor1)){
+                            String mensajeError = "Excepción en la semántica del lenguaje. Error, el operador: '" + op_relational + "' no compara tipos subjacentes básicos:" + valor1;
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);           
+                        }
+                        SimboloOperadores comparacionRelacional = new SimboloOperadores();
+                        if (value_1.esConstante() && value_2.esConstante()) {
+                            switch (op_relational) {
+                                case ">":comparacionRelacional.setValorTipo(((int) value_1.getValorTipo()) > ((int) value_2.getValorTipo()));break;
+                                case ">=":comparacionRelacional.setValorTipo(((int) value_1.getValorTipo()) >= ((int) value_2.getValorTipo()));break;
+                                case "<":comparacionRelacional.setValorTipo(((int) value_1.getValorTipo()) < ((int) value_2.getValorTipo()));break;
+                                case "<=":comparacionRelacional.setValorTipo(((int) value_1.getValorTipo()) <= ((int) value_2.getValorTipo()));break;
+                                case "==":
+                                    switch (valor1) {
+                                        case tsEntero:comparacionRelacional.setValorTipo(((int) value_1.getValorTipo()) == ((int) value_2.getValorTipo()));break;
+                                        case tsString:comparacionRelacional.setValorTipo((String.valueOf(value_1.getValorTipo())).equals(String.valueOf(value_2.getValorTipo())));break;
+                                        case tsBooleano:comparacionRelacional.setValorTipo(((boolean) value_1.getValorTipo()) == ((boolean) value_2.getValorTipo()));
+                                    }
+                                case "!=":
+                                    switch (valor1) {
+                                        case tsEntero:comparacionRelacional.setValorTipo(((int) value_1.getValorTipo()) != ((int) value_2.getValorTipo()));break;
+                                        case tsString:comparacionRelacional.setValorTipo( !(String.valueOf(value_1.getValorTipo())).equals(String.valueOf(value_2.getValorTipo())));break;
+                                        case tsBooleano:comparacionRelacional.setValorTipo (((boolean) value_1.getValorTipo()) != ((boolean) value_2.getValorTipo()));
+                                    }
+                            }
+                            comparacionRelacional.setEsConstante(true);
+                        }
+                        // GENERAMOS INSTRUCCION CODIGO 3D SEGUN EL OPERADOR RELACIONAL QUE TOQUE
+                        if (TipoSubjacenteBasico.tsBooleano == valor1) {
+                            generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar("bool").getOcupacion(), 0, tablaSimbolos.consultar("bool").getTipoSubjacenteBasico());
+                            comparacionRelacional.setIdVariable(String.valueOf(generadorCodigo3D.getTV().getNv()));
+                            generadorCodigo3D.generarCodigo3Direcciones(comprobarOperadorRelacional(op_relational), new Operador(value_1.getIdVariable(), CategoriaOperador.valorBooleano), new Operador(value_2.getIdVariable(), CategoriaOperador.valorBooleano), new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable));
+                            RESULT = comparacionRelacional;
+                        } else if (TipoSubjacenteBasico.tsEntero == valor1) {
+                            generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar("bool").getOcupacion(), 0, tablaSimbolos.consultar("bool").getTipoSubjacenteBasico());
+                            comparacionRelacional.setIdVariable(String.valueOf(generadorCodigo3D.getTV().getNv()));
+                            generadorCodigo3D.generarCodigo3Direcciones(comprobarOperadorRelacional(op_relational), new Operador(value_1.getIdVariable(), CategoriaOperador.valorAritmetico), new Operador(value_2.getIdVariable(), CategoriaOperador.valorAritmetico), new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable));
+                            RESULT = comparacionRelacional;
+                        }
+
+                    :}
+                ;
+
+CONDICION_BOOLEANA    ::= INICIALIZAR_OPERADOR_BOOLEANO:inicializar_operador
+            {:
+                    // CÓDIGO INTERMEDIO, SEGENERAN ETIQUETAS DE SALTO PARA LA CONDICIÓN
+                    generadorCodigo3D.getTablaEtiquetas().add("ETIQUETA" + generadorCodigo3D.getNumeroEtiqueta());
+                    generadorCodigo3D.sumarEtiqueta();
+                    generadorCodigo3D.getPilaTrue().push(String.valueOf(generadorCodigo3D.getNumeroEtiqueta()));
+                    // INSTRUCCIÓN DE EVALUACIÓN VERDADERA
+                    generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.esTrue, new Operador(inicializar_operador.getIdVariable(),CategoriaOperador.variable), null, new Operador(String.valueOf(generadorCodigo3D.getNumeroEtiqueta()), CategoriaOperador.etiqueta));
+                    generadorCodigo3D.getTablaEtiquetas().add("ETIQUETA" + generadorCodigo3D.getNumeroEtiqueta());
+                    generadorCodigo3D.sumarEtiqueta();
+                    generadorCodigo3D.getPilaFalse().push(String.valueOf(generadorCodigo3D.getNumeroEtiqueta()));
+                    // INSTRUCCIÓN DE EVALUACIÓN FALSA
+                    generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.esFalse, new Operador(inicializar_operador.getIdVariable(), CategoriaOperador.variable), null, new Operador(String.valueOf(generadorCodigo3D.getNumeroEtiqueta()), CategoriaOperador.etiqueta));            
+            :}
+        ;
+
+
+ETIQUETA_SALTO     ::= LAMBDA
+        {:
+                   // CÓDIGO INTERMEDIO, GENERAMOS ETIQUETA SALTO Y INSTRUCCIÓN DE SALTO
+                   generadorCodigo3D.getTablaEtiquetas().add("ETIQUETA" + generadorCodigo3D.getNumeroEtiqueta());
+                   generadorCodigo3D.sumarEtiqueta();
+                   generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.saltoIncondicional, null, null, new Operador(String.valueOf(generadorCodigo3D.getNumeroEtiqueta()), CategoriaOperador.etiqueta));
+                   RESULT = (String.valueOf(generadorCodigo3D.getNumeroEtiqueta()));
+        :}
+    ;
+
+CREAR_FUNCION ::= CREAR_FUNCION INICIO_FUNCION:simboloFuncion parentesis_der llave_izq SUMAR_AMBITO INSTRUCCIONES RETURN:simboloRetorno RESTAR_AMBITO llave_der 
+            {:
+                    // COMPROBACIÓN DEL SÍMBOLO RETORNO, SI EL VALOR ES CORRECTO
+                    Operador numSubprograma = new Operador(String.valueOf(simboloFuncion.getnSubprograma()), CategoriaOperador.subprograma);
+                    if (simboloRetorno != null ) {
+                        if (tablaSimbolos.consultar(simboloFuncion.getSubprograma()).getTipoSubjacenteBasico() != simboloRetorno.getTipoSubjacenteBasico()){
+                            String mensajeError = "Excepción en la semántica del lenguaje. Valor incorrecto de retorno.";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);  
+                        }
+                        // CÓDIGO INTERMEDIO, INSTRUCCION DE RETORNO DE UNA FUNCION
+                        Operacion3Direcciones retorno = Operacion3Direcciones.retorno;
+                        Operador valorRetorno = new Operador(String.valueOf(simboloRetorno.getIdCodigo3D()), CategoriaOperador.variable);
+                        generadorCodigo3D.generarCodigo3Direcciones(retorno, numSubprograma, null, valorRetorno);
+                    } else {              
+                        // ERROR DE QUE EL TIPO SEA VOID PERO NO HAYA RETORNO
+                         if (TipoSubjacenteBasico.tsVoid != tablaSimbolos.consultar(simboloFuncion.getSubprograma()).getTipoSubjacenteBasico()) {
+                            String mensajeError = "Excepción en la semántica del lenguaje. Falta el retorno de la función.";
+                            gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                            throw new Exception(mensajeError);      
+                        }
+                    }
+                    // INSTRUCCION DE FIN DE PROGRAMA
+                    Operacion3Direcciones finprograma = Operacion3Direcciones.finSubprograma;
+                    generadorCodigo3D.generarCodigo3Direcciones(finprograma, null, null, numSubprograma);
+                    // SI EL NOMBRE DEL SUBPROGRAMA ES EL PRINCIPAL, ENTONCES GENERAMOS LA INSTRUCCION
+                    // DEL CODIGO DE 3 DIRECCIONES DEL PRINCIPAL
+                    if(simboloFuncion.getNombreSubprograma().equals("Principal") ){
+                       generadorCodigo3D.generarCodigo3DireccionesPrincipal(Operacion3Direcciones.llamadaMain, null, null, new Operador(String.valueOf(tablaSimbolos.consultar("Principal").getIdCodigoIntermedio()), CategoriaOperador.subprograma));        
+                    }
+            :}
+        | LAMBDA
+        ;
+
+INICIO_FUNCION   ::= i_func identificador:simboloTipoVariable identificador:simboloIdFuncion parentesis_izq PARAMETROS_FUNCION:simboloParametros
+                {:
+                    // comprobamos que el tipo es correcto
+                    if (DescripcionValor.dvTipo != tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getDescripcionValor()) {
+                        String mensajeError = "Excepción en la semántica del lenguaje. No es del tipo adecuado.";
+                        gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                        throw new Exception(mensajeError);
+                    }  
+                    comprobarErrorTipoSubjacenteBasico(String.valueOf(simboloTipoVariable));                  
+                    generadorCodigo3D.getTP().nuevoSubprograma(simboloIdFuncion, tablaSimbolos.getAmbitoActual(), 0, tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getOcupacion(), tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getTipoSubjacenteBasico());
+                    // Si ha pasado el filtro anterior, la añadimos a nuestra tabla de descripciones
+                    tablaSimbolos.poner(simboloIdFuncion, new DescripcionTipo(simboloTipoVariable, null,DescripcionValor.dvSubprograma, generadorCodigo3D.getTP().getNp()));
+                    // Añadimos los parámetros de la función a la tabla de expansión
+                    // Y GENERAR LAS VARIABLES PARA LA TABLA DE VARIABLES
+                    if(simboloParametros != null){
+                        for (int i = 0; i < simboloParametros.getListaVariables().size(); i++) {
+                            generadorCodigo3D.getTV().nuevaVariable(simboloParametros.getListaVariables().get(i), generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar(simboloParametros.getListaTipoDescripcion().get(i).getNombreId()).getOcupacion(), -1, tablaSimbolos.consultar(simboloParametros.getListaTipoDescripcion().get(i).getNombreId()).getTipoSubjacenteBasico());
+                            simboloParametros.getListaTipoDescripcion().get(i).setIdCodigoIntermedio(generadorCodigo3D.getTV().getNv());
+                            tablaSimbolos.ponerParametro(simboloIdFuncion, simboloParametros.getListaVariables().get(i), simboloParametros.getListaTipoDescripcion().get(i));                           
+                        }
+                    }
+                    // CÓDIGO INTERMEDIO-> INSTRUCCION GENERAR ETIQUETASUBPROGRAMA E INSTRUCCION INCIALIZAR SUBPROGRMAA
+                    Operador opSubprograma = new Operador(String.valueOf(generadorCodigo3D.getTP().getNp()), CategoriaOperador.subprograma);
+                    Operacion3Direcciones idSubprograma = Operacion3Direcciones.idSubprograma;
+                    generadorCodigo3D.generarCodigo3Direcciones(idSubprograma, null, null, opSubprograma);
+                    Operacion3Direcciones inicializar = Operacion3Direcciones.inicializacion;
+                    generadorCodigo3D.generarCodigo3Direcciones(inicializar, null, null, opSubprograma);
+                    RESULT = new SimboloFuncion(simboloTipoVariable, generadorCodigo3D.getTP().getNp(),simboloIdFuncion);
+                :}
+            ;
+
+PARAMETROS_FUNCION  ::= MAS_PARAMETROS:simboloParametros
+            {:
+                RESULT = new SimboloParametros(simboloParametros.getListaVariables(), simboloParametros.getListaTipoDescripcion());
+            :}
+        |
+            {:
+                RESULT = new SimboloParametros();
+            :}
+        ;
+
+MAS_PARAMETROS  ::= MAS_PARAMETROS:simboloParametros coma identificador:simboloTipoVariable identificador:simboloIdVariable 
+                {:
+                    // Comprobación del tipo del parámetro
+                    if (DescripcionValor.dvTipo != tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getDescripcionValor()){
+                        String mensajeError = "Excepción en la semántica del lenguaje. Error, el tipo del parámetro es incorrecto.";
+                        gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                        throw new Exception(mensajeError);                   
+                    }
+                    // Consultamos en la tabla de simbolos el símbolo del tipo de variable y comprobamos si el tipo es correcto
+                    comprobarErrorTipoSubjacenteBasico(String.valueOf(simboloTipoVariable));
+                    simboloParametros.getListaTipoDescripcion().add(new DescripcionTipo(simboloTipoVariable,null, DescripcionValor.dvArgumento));
+                    simboloParametros.getListaVariables().add(simboloIdVariable);
+                    RESULT = new SimboloParametros(simboloParametros.getListaVariables(), simboloParametros.getListaTipoDescripcion());
+                :}
+
+            | identificador:simboloTipoVariable identificador:simboloIdVariable 
+                {:
+                    // Comprobamos el tipo
+                    if (DescripcionValor.dvTipo != tablaSimbolos.consultar(String.valueOf(simboloTipoVariable)).getDescripcionValor()){
+                        String mensajeError = "Excepción en la semántica del lenguaje. Tipo de los parámetros es incorrecto.";
+                        gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                        throw new Exception(mensajeError);                
+                    }
+                    comprobarErrorTipoSubjacenteBasico(String.valueOf(simboloTipoVariable));
+                    RESULT = new SimboloParametros(simboloIdVariable, simboloTipoVariable);
+                :}
+            ;
+
+RETURN ::= i_return VALORES:val fin_instruccion
+            {:
+                if(DescripcionValor.dvNull != val.getDescripcionValor() && !esId(val)){
+                    String mensajeError = "Excepción en la semántica del lenguaje. Descripción valor erroneo en el retorno: " + val.getDescripcionValor() + ".";
+                    gf.escribirError("src/Salidas/Errores/ErroresSemanticos.txt", mensajeError);
+                    throw new Exception(mensajeError);     
+                } 
+                if (DescripcionValor.dvNull == val.getDescripcionValor() ) {
+                    RESULT = new SimboloFuncion(val.getTipoSubjacenteBasico(), val.getIdVariable());
+                } 
+                if (esId(val)) {
+                    RESULT = new SimboloFuncion(tablaSimbolos.consultar(val.getNombreTipo()).getTipoSubjacenteBasico(), val.getIdVariable());
+                }
+            :}
+        |
+            {:
+                 RESULT = new SimboloFuncion();
+            :}
+        ;
+
+ETIQUETA_PASAR ::= LAMBDA
+        {:
+                    // CÓDIGO INTERMEDIO GENERAMOS NUEVA ETIQUETA E INSTRUCCION PASAR
+                    generadorCodigo3D.getTablaEtiquetas().add("ETIQUETA" + generadorCodigo3D.getNumeroEtiqueta());
+                    generadorCodigo3D.sumarEtiqueta();
+                    generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.etiquetaPasar, null, null, new Operador(String.valueOf(generadorCodigo3D.getNumeroEtiqueta()), CategoriaOperador.etiqueta));
+                    RESULT = String.valueOf(generadorCodigo3D.getNumeroEtiqueta());
+        :}
+    ;
+
+
+SUMAR_AMBITO   ::= 
+                    {:                        
+                        tablaSimbolos.entrarBloque();
+                    :}
+                ;
+
+RESTAR_AMBITO  ::= 
+                    {:                     
+                        tablaSimbolos.salirBloque();
+                    :}
+                ;
+
+M0  ::= 
+        {:  
+            // INTRODUCIMOS EN LA TABLA DE SIMBOLOS LOS TIPOS DE NUESTRO PROGRAMA
+            tablaSimbolos.poner("bool", new DescripcionTipo(TipoSubjacenteBasico.tsBooleano, 2, 0, 1));
+            tablaSimbolos.poner("str", new DescripcionTipo(TipoSubjacenteBasico.tsString, 0, 0, 1024));
+            tablaSimbolos.poner("int", new DescripcionTipo(TipoSubjacenteBasico.tsEntero, 4, Integer.MIN_VALUE, Integer.MAX_VALUE));
+            tablaSimbolos.poner("void", new DescripcionTipo(TipoSubjacenteBasico.tsVoid, 0, 0, 0));
+        :}
+        ;
+M1 ::=
+        {:                  
+            // CÓDIGO INTERMEDIO-> INSTRUCCION ETIQUETA PASAR CUANDO LA CONDICIÓN ES VERDADERA
+            generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.etiquetaPasar, null, null, new Operador(generadorCodigo3D.getPilaTrue().pop(), CategoriaOperador.etiqueta));
+        :}
+        ;
+
+M2 ::=
+        {:
+            // CÓDIGO INTERMEDIO-> INSTRUCCION ETIQUETA PASAR CUANDO LA CONDICIÓN ES FALSA
+            generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.etiquetaPasar, null, null, new Operador(generadorCodigo3D.getPilaFalse().pop(), CategoriaOperador.etiqueta));
+        :}
+        ;
+
+
+
+VALORES       ::= INICIALIZAR_OPERADOR_ARITMETICO:inicializar_operador   
+                {: 
+                    SimboloValores valor = new SimboloValores(TipoSubjacenteBasico.tsEntero);                   
+                    if (inicializar_operador.esConstante()) {                        
+                        valor.setEsConstante(inicializar_operador.esConstante());
+                        valor.setIdVariable(inicializar_operador.getIdVariable());
+                        valor.setValorTipo(inicializar_operador.getValorTipo());
+                        RESULT = valor;
+                    }else{
+                        valor.setEsConstante(false);
+                        valor.setIdVariable(inicializar_operador.getIdVariable());
+                        RESULT = valor;
+                    }
+                :}
+            | booleano:bool_value      
+                {:
+                    // CÓDIGO INTERMEDIO-> INSTRUCCION COPIA Y VARIABLE TEMPORAL
+                    generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar("bool").getOcupacion(), 0, tablaSimbolos.consultar("bool").getTipoSubjacenteBasico());
+                    generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.copia, new Operador(bool_value, CategoriaOperador.valorBooleano), null, new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable));
+                    RESULT = new SimboloValores(TipoSubjacenteBasico.tsBooleano, Boolean.parseBoolean(bool_value),String.valueOf(generadorCodigo3D.getTV().getNv()) ); 
+                
+                :}
+            | INICIALIZAR_OPERADOR_BOOLEANO:inicializar_operador   
+                {:		
+                    if (inicializar_operador.esConstante()) { 
+                        RESULT = new SimboloValores(TipoSubjacenteBasico.tsBooleano,inicializar_operador.esConstante(),inicializar_operador.getIdVariable(), inicializar_operador.getValorTipo());
+                    }else{
+                        RESULT = new SimboloValores(TipoSubjacenteBasico.tsBooleano,inicializar_operador.esConstante() ,inicializar_operador.getIdVariable());
+                    }
+                :}
+
+            | SIGNO:simbolo_signo entero:entero_valor
+                {:
+                    // CÓDIGO INTERMEDIO-> INSTRUCCION COPIA Y VARIABLE TEMPORAL
+                    generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar("int").getOcupacion(), 0, tablaSimbolos.consultar("int").getTipoSubjacenteBasico());
+                    if (simbolo_signo != null && simbolo_signo.tieneSigno() && simbolo_signo.esNegativo()) {
+                        Operador opValorAritmetico = new Operador(String.valueOf(-Integer.parseInt(entero_valor)), CategoriaOperador.valorAritmetico);
+                        Operador opVariable = new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable);
+                        generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.copia,opValorAritmetico,null,opVariable);
+                        RESULT = new SimboloValores(TipoSubjacenteBasico.tsEntero, -Integer.parseInt(entero_valor), String.valueOf(generadorCodigo3D.getTV().getNv()));
+                    }else{
+                        Operador opValorAritmetico = new Operador(String.valueOf(Integer.parseInt(entero_valor)), CategoriaOperador.valorAritmetico);
+                        Operador opVariable = new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable);
+                        generadorCodigo3D.generarCodigo3Direcciones(Operacion3Direcciones.copia,opValorAritmetico,null,opVariable);
+                        RESULT = new SimboloValores(TipoSubjacenteBasico.tsEntero, Integer.parseInt(entero_valor), String.valueOf(generadorCodigo3D.getTV().getNv()));
+                    }
+                :}
+
+            | cadena:text_value      
+                {: 
+                    if (text_value.replace("\"", "").length() > 255){
+                        String mensajeError = "Excepción en la sintaxis del programa, error al sobrepasar límites del String. Tiene " + text_value.replace("\"", "").length() + " carácteres y debería tener menor o igual a  255";
+                        gf.escribirError("src/Salidas/Errores/ErroresSintacticos.txt", mensajeError);
+                        throw new Exception(mensajeError);
+                    }
+                    // CÓDIGO INTERMEDIO-> INSTRUCCION COPIA Y VARIABLE TEMPORAL
+                    SimboloValores valor = new SimboloValores(TipoSubjacenteBasico.tsString, text_value.replace("\"", ""));
+                    valor.setEsString(true);
+                    generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), text_value.replace("\"", "").length() * 2, 0, tablaSimbolos.consultar("str").getTipoSubjacenteBasico());
+                    valor.setIdVariable(String.valueOf(generadorCodigo3D.getTV().getNv()));
+                    valor.setOcupacionString(text_value.replace("\"", "").length() * 2);
+                    Operacion3Direcciones opCopia = Operacion3Direcciones.copia;
+                    Operador opString = new Operador(text_value, CategoriaOperador.valorString);
+                    Operador opString2 = new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable);
+                    generadorCodigo3D.generarCodigo3Direcciones(opCopia, opString, null, opString2 );
+                    RESULT = valor;
+                :}
+
+            | LLAMAR_FUNCION:simboloLlamar
+                {:
+                    SimboloValores valor = new SimboloValores(DescripcionValor.dvSubprograma, tablaSimbolos.consultar(simboloLlamar.getSubprograma()).getNombreId());
+                    // CÓDIGO INTERMEDIO INSTRUCCION COPIA Y VARIABLE TEMPORAL
+                    generadorCodigo3D.getTV().nuevaVariable("Variable temporal", generadorCodigo3D.getTP().subprogramaActual(), tablaSimbolos.consultar(tablaSimbolos.consultar(simboloLlamar.getSubprograma()).getNombreId()).getOcupacion(), 0, tablaSimbolos.consultar(tablaSimbolos.consultar(simboloLlamar.getSubprograma()).getNombreId()).getTipoSubjacenteBasico());
+                    valor.setIdVariable(String.valueOf(generadorCodigo3D.getTV().getNv()));
+                    Operacion3Direcciones opCopia = Operacion3Direcciones.copia;
+                    Operador opLlamar = new Operador(String.valueOf(simboloLlamar.getnSubprograma()), CategoriaOperador.subprograma);
+                    Operador opVarTemp = new Operador(String.valueOf(generadorCodigo3D.getTV().getNv()), CategoriaOperador.variable);
+                    generadorCodigo3D.generarCodigo3Direcciones(opCopia, opLlamar, null, opVarTemp);
+                    RESULT = valor;
+                :}
+
+            | identificador:id_value           
+                {:
+                    if (DescripcionValor.dvConstante == tablaSimbolos.consultar(id_value).getDescripcionValor() ) {                       
+                        RESULT = new SimboloValores(tablaSimbolos.consultar(id_value).getDescripcionValor(),tablaSimbolos.consultar(id_value).getNombreId(), tablaSimbolos.consultar(id_value).getValorConstante(), true, String.valueOf(tablaSimbolos.consultar(id_value).getIdCodigoIntermedio()));
+                    }else{
+                        RESULT = new SimboloValores(tablaSimbolos.consultar(id_value).getDescripcionValor(),tablaSimbolos.consultar(id_value).getNombreId(), String.valueOf(tablaSimbolos.consultar(id_value).getIdCodigoIntermedio()));
+                    }     
+                :}
+            ;
+
+LAMBDA    ::= 
+            ;
