@@ -1,0 +1,42 @@
+*** No tiene parámetros ***
+func int entradaNumero() {
+	*** Entrada de datos ***
+	int numero = 0;
+	stdin(numero); 
+	return numero;
+}
+
+*** Funcion con mas de un parametro ***
+func int calcularValorIntermedio(int a, int b, int c) {
+	int resultado = 0;
+	if (a < b & b < c){
+		resultado = b;
+	}else if(a < c & c < b){
+		 resultado = c;
+	}else if(b < a & a < c){
+		 resultado = a;
+	}else if (b < c & c < a){
+		 resultado = c;
+	}else if (c < a & a < b){
+		 resultado = a;
+	}else { *** c < b & b < a ***
+		 resultado = b;
+	}
+	return resultado;
+}
+
+*** Función principal ***
+func void Principal() {
+	stdout("Programa que calcula cual es el numero del medio:");
+	stdout("Introduzca el primer numero:");
+	int n1 = func entradaNumero();
+	stdout("Introduzca el segundo numero:");
+	int n2 = func entradaNumero();
+	stdout("Introduzca el tercer numero:");
+	int n3 = func entradaNumero();
+	stdout("El numero intermedio es:");
+	stdout(func calcularValorIntermedio(n1 n2 n3));
+
+}
+
+

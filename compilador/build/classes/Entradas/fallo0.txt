@@ -1,0 +1,8 @@
+func void Principal() {	
+	str CONST string1 = "Alcachofa";
+	int _num1 = 5;
+	_num1 = numeroNoDefinido;
+	stdout(_num1);
+}
+
+

@@ -1,0 +1,23 @@
+
+func int factorialRecursivo(int num) {
+	int resultado = 0;
+	if(num != 1) {
+		int decremento = (num - 1);
+		int resultadoFactorial = func factorialRecursivo(decremento);		
+		resultado = (num * resultadoFactorial);
+	} else {
+		resultado = 1;		
+	}
+	return resultado;
+}
+func void Principal() {	
+	stdout("Programa que calcula el factorial del numero introducido por teclado:");
+	int n = 0;
+	stdin(n);
+	int resultado = func factorialRecursivo(  n);
+	stdout("Resultado factorial: ");
+	stdout(resultado);
+}
+
+
+

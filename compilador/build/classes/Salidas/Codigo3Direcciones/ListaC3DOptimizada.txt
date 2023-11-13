@@ -1,0 +1,80 @@
+********** Instrucciones Código intermedio ***********
+
+1. (llamadaMain | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> subprograma, valor -> 1)
+
+2. (idSubprograma | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> subprograma, valor -> 0)
+
+3. (inicializacion | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> subprograma, valor -> 0)
+
+4. (copia | OPERANDO 1: Categoria-> valorAritmetico, valor -> 0 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 2)
+
+5. (copia | OPERANDO 1: Categoria-> valorAritmetico, valor -> 0 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 3)
+
+6. (diferente | OPERANDO 1: Categoria-> valorAritmetico, valor -> 0 | OPERANDO 2: Categoria -> valorAritmetico, valor -> 3 | DESTINO: Categoria -> variable, valor -> 4)
+
+7. (esTrue | OPERANDO 1: Categoria-> variable, valor -> 4 | OPERANDO 2: -> Null | DESTINO: Categoria -> etiqueta, valor -> 2)
+
+8. (esFalse | OPERANDO 1: Categoria-> variable, valor -> 4 | OPERANDO 2: -> Null | DESTINO: Categoria -> etiqueta, valor -> 3)
+
+9. (etiquetaPasar | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> etiqueta, valor -> 2)
+
+10. (copia | OPERANDO 1: Categoria-> valorAritmetico, valor -> 1 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 5)
+
+11. (resta | OPERANDO 1: Categoria-> variable, valor -> 0 | OPERANDO 2: Categoria -> variable, valor -> 5 | DESTINO: Categoria -> variable, valor -> 6)
+
+12. (copia | OPERANDO 1: Categoria-> variable, valor -> 6 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 7)
+
+13. (parametroSimple | OPERANDO 1: Categoria-> variable, valor -> 7 | OPERANDO 2: Categoria -> nParametro, valor -> 1 | DESTINO: Categoria -> subprograma, valor -> 0)
+
+14. (llamada | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> subprograma, valor -> 0)
+
+15. (copia | OPERANDO 1: Categoria-> subprograma, valor -> 0 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 8)
+
+16. (copia | OPERANDO 1: Categoria-> variable, valor -> 8 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 9)
+
+17. (producto | OPERANDO 1: Categoria-> variable, valor -> 0 | OPERANDO 2: Categoria -> variable, valor -> 9 | DESTINO: Categoria -> variable, valor -> 10)
+
+18. (copia | OPERANDO 1: Categoria-> variable, valor -> 10 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 2)
+
+19. (saltoIncondicional | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> etiqueta, valor -> 4)
+
+20. (etiquetaPasar | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> etiqueta, valor -> 3)
+
+21. (copia | OPERANDO 1: Categoria-> valorAritmetico, valor -> 1 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 2)
+
+22. (etiquetaPasar | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> etiqueta, valor -> 4)
+
+23. (retorno | OPERANDO 1: Categoria-> subprograma, valor -> 0 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 2)
+
+24. (finSubprograma | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> subprograma, valor -> 0)
+
+25. (idSubprograma | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> subprograma, valor -> 1)
+
+26. (inicializacion | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> subprograma, valor -> 1)
+
+27. (copia | OPERANDO 1: Categoria-> valorString, valor -> "Programa que calcula el factorial del numero introducido por teclado:" | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 12)
+
+28. (salidaDatos | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 12)
+
+29. (copia | OPERANDO 1: Categoria-> valorAritmetico, valor -> 0 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 14)
+
+30. (entradaDatos | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 15)
+
+31. (copia | OPERANDO 1: Categoria-> variable, valor -> 15 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 14)
+
+32. (parametroSimple | OPERANDO 1: Categoria-> variable, valor -> 14 | OPERANDO 2: Categoria -> nParametro, valor -> 1 | DESTINO: Categoria -> subprograma, valor -> 0)
+
+33. (llamada | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> subprograma, valor -> 0)
+
+34. (copia | OPERANDO 1: Categoria-> subprograma, valor -> 0 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 16)
+
+35. (copia | OPERANDO 1: Categoria-> variable, valor -> 16 | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 17)
+
+36. (copia | OPERANDO 1: Categoria-> valorString, valor -> "Resultado factorial: " | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 18)
+
+37. (salidaDatos | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 18)
+
+38. (salidaDatos | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> variable, valor -> 17)
+
+39. (finSubprograma | OPERANDO 1: -> Null | OPERANDO 2: -> Null | DESTINO: Categoria -> subprograma, valor -> 1)
+
